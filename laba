@@ -1,0 +1,145 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace laba11
+{
+    class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+
+
+            Console.WriteLine("\nЗапрос выбирающий последовательность месяцев с длиной строки<= 5");
+            var dlina = from month in months
+                        where month.Length <= 5
+                        orderby month
+                        select month;
+
+            foreach (string s in dlina)
+                Console.WriteLine(s);
+
+
+            Console.WriteLine("\nЗапрос возвращающий только летние и зимние месяцы");
+            var letzim = from month in months
+                         where month == "June" || month == "July" || month == "August" || month == "January" || month == "February" || month == "December"
+                         select month;
+
+            foreach (string s in letzim)
+                Console.WriteLine(s);
+
+            Console.WriteLine("\nЗапрос вывода месяцев в алфавитном порядке");
+            var alph = from month in months
+                       orderby month
+                       select month;
+
+            foreach (string s in alph)
+                Console.WriteLine(s);
+
+
+            Console.WriteLine("\nЗапрос посчитывающий месяцы содержащие букву «u» и длиной имени не менее 4-х");
+
+            var bukvaui4 = from month in months
+                           where month.Contains("u") || month.Length >= 4
+                           select month;
+
+            foreach (string s in bukvaui4)
+                Console.WriteLine(s);
+
+
+
+            //запросы
+
+            Console.WriteLine("\tЗапросы");
+            string[] dates = {
+        "12.02.2014", "09.12.2015", "10.07.2016", "25.03.2010", "04.07.2017", "15.11.2013",
+        "06.07.2012", "16.04.2017", "16.06.2015"};
+
+
+            Console.WriteLine("список дат для заданного года(2015)");
+            // Использование точечной нотации
+            IEnumerable<string> sequence = dates
+                .Where(n => n.Contains("2015"))
+              .Select(n => n);
+
+            // Использование синтаксиса выражения запроса
+            IEnumerable<string> sequence2 = from n in dates
+                                            where n.Contains("2015")
+                                            select n;
+
+            foreach (string date in sequence2)
+            {
+                Console.WriteLine("{0}", date);
+            }
+
+
+
+
+
+            Console.WriteLine("список дат, которые имеют заданный месяц(июль 07)");
+
+            IEnumerable<string> sequence3 = from n in dates
+                                            where n.Contains(".07.")
+                                            select n;
+
+            foreach (string date in sequence3)
+            {
+                Console.WriteLine("{0}", date);
+            }
+
+
+            Console.WriteLine("количество дат в определённом диапазоне");
+
+            	DateTime[] dateTimes = new DateTime[]
+            {
+            	new DateTime(2015, 10,21),
+            	new DateTime(2014, 5,3),
+				new DateTime(2015, 7, 11),
+				new DateTime(2013, 6, 18),
+                new DateTime(2016, 11, 19)
+      
+            };
+			var fromDate = new DateTime(2015, 01, 01);
+			var toDate = new DateTime(2015, 12, 31);
+
+			var filtered = from element in dateTimes
+						   where element.Date >= fromDate && element.Date <= toDate
+						   select element;
+
+            foreach (var element in filtered)
+			{
+				Console.WriteLine(element);
+			}
+
+
+
+
+            Console.WriteLine("максимальную дату");
+
+			DateTime date1 = new DateTime(2007, 10, 28);
+			DateTime date2 = new DateTime(2011, 05, 09);
+            DateTime date3 = new DateTime(2001, 02, 04);
+
+			DateTime maxresult = new[] { date1, date2 ,date3 }.Max();
+
+            Console.WriteLine("max "+maxresult);
+
+
+
+			Console.WriteLine("Упорядоченный список дат (хронологически)");
+
+            var pustaya_data = new DateTime(1, 1, 1);
+			var hronological = from hron in dateTimes
+                              where hron !=pustaya_data
+						    orderby hron
+						   select hron;
+
+			foreach (DateTime hron in hronological)
+			{
+				Console.WriteLine(hron);
+			}
+
+		}
+    }
+}
